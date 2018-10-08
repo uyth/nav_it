@@ -5,7 +5,7 @@
 > Skriv kode som validerer norske fødselsnummer. Du velger selv språk og hvordan du vil løse oppgaven, men husk på at vi ønsker å se dine styrker, hvor dyktig du er og ditt potensiale innen utvikling. Besvarelsen skal inneholde tester.
 
 ### Criteria
--   The national id is represented as a string
+-   The National IDs are represented as a string
 -   The string must only contain numbers
 -   The string must be 11 characters long
 -   The first 6 characters must be a valid date with format ddMMyy
@@ -24,7 +24,7 @@
 
     source: https://www.skatteetaten.no/person/folkeregister/fodsel-og-navnevalg/barn-fodt-i-norge/fodselsnummer/
     
-    Thus for year yy in the national ids:
+    Thus for year yy in the National IDs:
     
         year = [xx00, xx39] uses the series [000, 999]
         year = [xx40, xx53] uses the series [000, 499] and [900, 999]
@@ -48,44 +48,63 @@
     The checksum model says that if the computed value is 11, 
     it should resolve to 0 instead. Thus we use `modulo 11` on the computed value.
     If the computed value resolves to 10, the checksum model says that the checksum is wrong, 
-    and the national id is not valid. This will always be the case for 10 because
+    and the National ID is not valid. This will always be the case for 10 because
     it is a two digit number. For all other single digit computed values
-     it should resolve to the checksum digit. If not, we know that the national id
+     it should resolve to the checksum digit. If not, we know that the National ID
      is not valid.
+
+#### D-Number and H-Number
+
+There is also something called a D-Number and H-Number. They act identically to
+the National IDs, besides that:
+
+  - A D-Number has its first digit shifted by 4 (up)
+  - An H-Number has its third digit shifted by 4 (up)
+
+    source: https://www.skatteetaten.no/person/utenlandsk/norsk-identitetsnummer/d-nummer/
+    source: https://no.wikipedia.org/wiki/F%C3%B8dselsnummer    
+
+Note that this only changes the date criteria and that the first 6 digits must be validated in another way
+than the normal National IDs.
     
 ### Structure
 
-The Java project contains five units: an interface,
-an abstract class that implements that interface, a class that extends that abstract class,
-a test for that abstract class and a runnable Main-class that validates arguments
-  as national id.
+The Java project consists of five major parts:
+  1. An interface
+  2. An abstract class that implements that interface
+  3. Implementations of the abstract class
+  4. Tests for each of the implementation
+  5. A runnable Main-class that validates arguments as National IDs.
 
-#### Unit test - NationalIDValidatorTest
-The unit tests are written against the criteria metioned in the previous section.
+#### Unit tests - NationalIDValidatorTest, DNumberValidatorTest and HNumberValidatorTest
+The unit tests are written against the criteria mentioned in the previous section.
 
-Note that a change in the checksum digits will invalidate the national id.
+Note that a change in the checksum digits will invalidate the National ID.
 
 #### Interface - INationalIDValidator
-A set of methods we want the Validator to do. These correspond to the criteria.
+A set of methods we want the Validator to have. These correspond to the criteria.
   
 #### Abstract class - AbstractNationalIDValidator
 An abstract class that implements `INationalIDValidator`. It implements the `validateNationalID`-method,
 which uses all the other unimplemented methods from the `INationalIDValidator`-interface.
 
 In the test we are using the *Liskov substitution principle* to constrict us 
-to this class. It makes the code more maintainable and we could use another 
-implementation of `AbstractNationalIDValidator` if we wanted to.
+to this class. It makes the code more maintainable and we can have several
+implementation of `AbstractNationalIDValidator`.
 
 
-#### Implementation - NationalIDValidator
-Extends `AbstractNationalIDValidator` and implements the `INationalIDValidator`. It uses `SimpleDateFormat` to validate
+#### Implementation - NationalIDValidator, DNumberValidator, HNumberValidator
+`NationalIDValidator` extends `AbstractNationalIDValidator` and implements the `INationalIDValidator`. It uses `SimpleDateFormat` to validate
 dates.
 
-Note the `dateFormat.setLenient(false)` in the constructor.
- The tests gave some funky results when the date was set to `32` before setting
- it as non-lenient.
+Note the `dateFormat.setLenient(false)` in the constructor of `NationalIDValidtor`.
+ The tests gave some funky results when the date was set to `32` with the default setting.
  
-### Main - A simple interface
+`DNumberValidator` and `HNumberValidator` extends `NationalIDValidator`. They both
+override the `ìsValidDate` with their own implementation, which also calls on
+the `NationalValidator`'s `isValidDate`-method
+ 
+### Main - A simple command line interface
 Main is used for the compiled jar to run a command that accepts string
 arguments.
 
@@ -102,13 +121,13 @@ Optionally, you could can use your IDE(A) to build the jar.
 
 ### Using the compiled jar
 
-The jar uses strings as arguments and validates them as national ids.
+The jar uses strings as arguments and validates them as National IDs.
  To use the jar in the terminal, locate the directory of `validator.jar` and use
  the command
 
     java -jar validator.jar arg1 arg2 ...
     
-where `arg1, arg2, ...` are the national ids that you want to validate. 
+where `arg1, arg2, ...` are the National IDs that you want to validate. 
 
 ## Intervjuspørsmål
 

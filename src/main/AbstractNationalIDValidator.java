@@ -18,4 +18,19 @@ public abstract class AbstractNationalIDValidator implements INationalIDValidato
     abstract public boolean isValidIndividualNumber(String nationalID);
 
     abstract public boolean isValidChecksum(String nationalID);
+
+    protected String unShiftNationalID(String nationalID, int shiftIndex, int shiftValue) {
+
+        int shiftDigit = Character.getNumericValue(nationalID.charAt(shiftIndex));
+        String unShiftedDigit = String.valueOf(shiftDigit-shiftValue);
+        StringBuilder unShiftedNationalID = new StringBuilder();
+        for (int i = 0; i < nationalID.length(); i++) {
+            if (i == shiftIndex) {
+                unShiftedNationalID.append(unShiftedDigit);
+            } else {
+                unShiftedNationalID.append(nationalID.charAt(i));
+            }
+        }
+        return unShiftedNationalID.toString();
+    }
 }

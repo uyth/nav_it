@@ -14,7 +14,7 @@ public class NationalIDValidator extends AbstractNationalIDValidator
         return ourInstance;
     }
 
-    private NationalIDValidator() {
+    protected NationalIDValidator() {
         dateFormat = new SimpleDateFormat("ddMMyy");
         dateFormat.setLenient(false);
     }
@@ -28,9 +28,9 @@ public class NationalIDValidator extends AbstractNationalIDValidator
     @Override
     public boolean isValidDate(String nationalID) {
         // check if valid date
-        String data = nationalID.substring(0, 6);
+        String date = nationalID.substring(0, 6);
         try {
-            dateFormat.parse(data);
+            dateFormat.parse(date);
         } catch (ParseException e) {
             return false;
         }
