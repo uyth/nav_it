@@ -127,7 +127,13 @@ The jar uses strings as arguments and validates them as National IDs.
 
     java -jar validator.jar arg1 arg2 ...
     
-where `arg1, arg2, ...` are the National IDs that you want to validate. 
+where `arg1, arg2, ...` are the National IDs that you want to validate.
+
+Optionally, you can use the command
+
+    java -jar validator.jar
+    
+to enter a simple CLI.
 
 ## Intervjuspørsmål
 
