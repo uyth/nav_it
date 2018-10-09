@@ -10,8 +10,8 @@ public class Main {
         System.out.println("To exit type \"exit\"");
     }
 
-    private void validate(String arg, INationalIDValidator validator) {
-        boolean valid = validator.validateNationalID(arg);
+    private void validate(String arg, IDValidator validator) {
+        boolean valid = validator.validateID(arg);
         String status = valid ? "a valid" : "not a valid";
         System.out.println("\""+arg + "\" is " + status + " national id.");
         if (!valid) {
@@ -37,7 +37,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        INationalIDValidator validator = NationalIDValidator.getInstance();
+        IDValidator validator = NationalIDValidator.getInstance();
         Main main = new Main();
         if (args.length == 0) {
             main.printInitMessage();

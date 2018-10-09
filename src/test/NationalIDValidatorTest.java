@@ -1,4 +1,4 @@
-import main.AbstractNationalIDValidator;
+import main.AbstractIDValidator;
 import main.NationalIDValidator;
 import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
@@ -7,18 +7,18 @@ import java.util.Arrays;
 import java.util.List;
 
 class NationalIDValidatorTest {
-    private AbstractNationalIDValidator validator = NationalIDValidator.getInstance();
+    private AbstractIDValidator validator = NationalIDValidator.getInstance();
 
     @Test
     void validateNationalID() {
-        assertTrue(validator.validateNationalID("11063326641"));
-        assertFalse(validator.validateNationalID("11063326631"));
-        assertFalse(validator.validateNationalID("11063326642"));
-        assertFalse(validator.validateNationalID("12345678910"));
-        assertFalse(validator.validateNationalID("abcdefghij"));
-        assertFalse(validator.validateNationalID("1106332664"));
-        assertFalse(validator.validateNationalID("110633266410"));
-        assertFalse(validator.validateNationalID("110633a26641"));
+        assertTrue(validator.validateID("11063326641"));
+        assertFalse(validator.validateID("11063326631"));
+        assertFalse(validator.validateID("11063326642"));
+        assertFalse(validator.validateID("12345678910"));
+        assertFalse(validator.validateID("abcdefghij"));
+        assertFalse(validator.validateID("1106332664"));
+        assertFalse(validator.validateID("110633266410"));
+        assertFalse(validator.validateID("110633a26641"));
 
         // national numbers fetched from
         // http://www.fnrinfo.no/Verktoy/FinnLovlige_Tilfeldig.aspx
@@ -49,7 +49,7 @@ class NationalIDValidatorTest {
                 "22107443723", "07038214661", "15126009558", "09074439117",
                 "17101053091", "14039940303", "04049447820", "05112218957");
         for (String nationalID : randomNationalIDs) {
-            assertTrue(validator.validateNationalID(nationalID));
+            assertTrue(validator.validateID(nationalID));
         }
     }
 

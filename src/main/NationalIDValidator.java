@@ -4,8 +4,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class NationalIDValidator extends AbstractNationalIDValidator
-        implements INationalIDValidator {
+public class NationalIDValidator extends AbstractIDValidator implements IDValidator {
 
     private static NationalIDValidator ourInstance = new NationalIDValidator();
     private DateFormat dateFormat;
@@ -20,15 +19,15 @@ public class NationalIDValidator extends AbstractNationalIDValidator
     }
 
     @Override
-    public boolean isValidCharacters(String nationalID) {
+    public boolean isValidCharacters(String id) {
         // only allow strings that are numbers and 11 characters long
-        return nationalID.matches("^[0-9]{11}");
+        return id.matches("^[0-9]{11}");
     }
 
     @Override
-    public boolean isValidDate(String nationalID) {
+    public boolean isValidDate(String id) {
         // check if valid date
-        String date = nationalID.substring(0, 6);
+        String date = id.substring(0, 6);
         try {
             dateFormat.parse(date);
         } catch (ParseException e) {
@@ -38,10 +37,10 @@ public class NationalIDValidator extends AbstractNationalIDValidator
     }
 
     @Override
-    public boolean isValidIndividualNumber(String nationalID) {
+    public boolean isValidIndividualNumber(String id) {
         // check personal number
-        int individualNumber = Integer.valueOf(nationalID.substring(6, 9));
-        int year = Integer.valueOf(nationalID.substring(4, 6));
+        int individualNumber = Integer.valueOf(id.substring(6, 9));
+        int year = Integer.valueOf(id.substring(4, 6));
         if (year < 40) {
             return true;
         } else if (year < 54) {
@@ -52,14 +51,14 @@ public class NationalIDValidator extends AbstractNationalIDValidator
     }
 
     @Override
-    public boolean isValidChecksum(String nationalID) {
+    public boolean isValidChecksum(String id) {
         boolean c1, c2;
-        c1 = checkControlDigit(nationalID,
+        c1 = checkControlDigit(id,
                 new int[]{3, 7, 6, 1, 8, 9, 4, 5, 2},
-                Character.getNumericValue(nationalID.charAt(9)));
-        c2 = checkControlDigit(nationalID,
+                Character.getNumericValue(id.charAt(9)));
+        c2 = checkControlDigit(id,
                 new int[]{5, 4, 3, 2, 7, 6, 5, 4, 3, 2},
-                Character.getNumericValue(nationalID.charAt(10)));
+                Character.getNumericValue(id.charAt(10)));
         return c1 && c2;
     }
 

@@ -81,27 +81,27 @@ The unit tests are written against the criteria mentioned in the previous sectio
 
 Note that a change in the checksum digits will invalidate the National ID.
 
-#### Interface - INationalIDValidator
+#### Interface - IDValidator
 A set of methods we want the Validator to have. These correspond to the criteria.
   
-#### Abstract class - AbstractNationalIDValidator
-An abstract class that implements `INationalIDValidator`. It implements the `validateNationalID`-method,
-which uses all the other unimplemented methods from the `INationalIDValidator`-interface.
+#### Abstract class - AbstractIDValidator
+An abstract class that implements `IDValidator`. It implements the `validateID`-method,
+which uses all the other unimplemented methods from the `IDValidator`-interface.
 
 In the test we are using the *Liskov substitution principle* to constrict us 
 to this class. It makes the code more maintainable and we can have several
-implementation of `AbstractNationalIDValidator`.
+implementation of `AbstractIDValidator`.
 
 
 #### Implementation - NationalIDValidator, DNumberValidator, HNumberValidator
-`NationalIDValidator` extends `AbstractNationalIDValidator` and implements the `INationalIDValidator`. It uses `SimpleDateFormat` to validate
+`NationalIDValidator` extends `AbstractIDValidator` and implements the `IDValidator`. It uses `SimpleDateFormat` to validate
 dates.
 
 Note the `dateFormat.setLenient(false)` in the constructor of `NationalIDValidtor`.
  The tests gave some funky results when the date was set to `32` with the default setting.
  
 `DNumberValidator` and `HNumberValidator` extends `NationalIDValidator`. They both
-override the `ìsValidDate` with their own implementation, which also calls on
+override the `ìsValidDate`-method with their own implementation, which also calls on
 the `NationalValidator`'s `isValidDate`-method
  
 ### Main - A simple command line interface

@@ -10,8 +10,8 @@ public class DNumberValidatorTest {
     @Test
     public void validateDNumber() {
         // a valid National ID, but not a valid D-Number
-        assertFalse(validator.validateNationalID("11063326641"));
+        assertFalse(validator.validateID("11063326641"));
         // 11063326641 shifted
-        assertTrue(validator.validateNationalID("51063326635"));
+        assertTrue(validator.validateID("51063326635"));
     }
 }

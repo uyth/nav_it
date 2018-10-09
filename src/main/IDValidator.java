@@ -1,7 +1,7 @@
 package main;
 
-public interface INationalIDValidator {
-    boolean validateNationalID(String nationalID);
+public interface IDValidator {
+    boolean validateID(String nationalID);
     boolean isValidCharacters(String nationalID);
     boolean isValidDate(String nationalID);
     boolean isValidIndividualNumber(String nationalID);
