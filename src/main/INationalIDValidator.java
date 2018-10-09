@@ -1,3 +1,5 @@
+package main;
+
 public interface INationalIDValidator {
     boolean validateNationalID(String nationalID);
     boolean isValidCharacters(String nationalID);

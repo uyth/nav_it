@@ -1,3 +1,5 @@
+import main.INationalIDValidator;
+import main.NationalIDValidator;
 import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
 
