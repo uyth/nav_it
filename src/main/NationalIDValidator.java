@@ -4,7 +4,8 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-public class NationalIDValidator implements INationalIDValidator {
+public class NationalIDValidator extends AbstractNationalIDValidator
+        implements INationalIDValidator {
 
     private static NationalIDValidator ourInstance = new NationalIDValidator();
     private DateFormat dateFormat;
@@ -16,15 +17,6 @@ public class NationalIDValidator implements INationalIDValidator {
     private NationalIDValidator() {
         dateFormat = new SimpleDateFormat("ddMMyy");
         dateFormat.setLenient(false);
-    }
-
-    @Override
-    // check if all constraints are ok
-    public boolean validateNationalID(String nationalID) {
-        return isValidCharacters(nationalID)
-                && isValidDate(nationalID)
-                && isValidIndividualNumber(nationalID)
-                && isValidChecksum(nationalID);
     }
 
     @Override

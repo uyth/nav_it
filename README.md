@@ -55,9 +55,9 @@
     
 ### Structure
 
-The Java project contains four units: an interface,
- a class that implements that interface, a test that tests 
- the implementations of that interface and a runnable Main-class that validates arguments
+The Java project contains five units: an interface,
+an abstract class that implements that interface, a class that extends that abstract class,
+a test for that abstract class and a runnable Main-class that validates arguments
   as national id.
 
 #### Unit test - NationalIDValidatorTest
@@ -66,13 +66,19 @@ The unit tests are written against the criteria metioned in the previous section
 Note that a change in the checksum digits will invalidate the national id.
 
 #### Interface - INationalIDValidator
-An set of methods we want the Validator to do. In the test we are using
- the *Liskov substitution principle* to constrict us to the interface.
-  It makes the code more maintainable and we could use another implementation of
-  `INationalIDValidator` if we wanted.
+A set of methods we want the Validator to do. These correspond to the criteria.
+  
+#### Abstract class - AbstractNationalIDValidator
+An abstract class that implements `INationalIDValidator`. It implements the `validateNationalID`-method,
+which uses all the other unimplemented methods from the `INationalIDValidator`-interface.
+
+In the test we are using the *Liskov substitution principle* to constrict us 
+to this class. It makes the code more maintainable and we could use another 
+implementation of `AbstractNationalIDValidator` if we wanted to.
+
 
 #### Implementation - NationalIDValidator
-Implements the `INationalIDValidator`. It uses `SimpleDateFormat` to validate
+Extends `AbstractNationalIDValidator` and implements the `INationalIDValidator`. It uses `SimpleDateFormat` to validate
 dates.
 
 Note the `dateFormat.setLenient(false)` in the constructor.

@@ -1,4 +1,4 @@
-import main.INationalIDValidator;
+import main.AbstractNationalIDValidator;
 import main.NationalIDValidator;
 import org.junit.jupiter.api.Test;
 import static org.junit.Assert.*;
@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 class NationalIDValidatorTest {
-    private INationalIDValidator validator = NationalIDValidator.getInstance();
+    private AbstractNationalIDValidator validator = NationalIDValidator.getInstance();
 
     @Test
     void validateNationalID() {
