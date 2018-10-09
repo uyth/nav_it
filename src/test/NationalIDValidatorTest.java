@@ -70,13 +70,19 @@ class NationalIDValidatorTest {
 
     @Test
     void isValidDate() {
-        // valid
+        // valid dates
         assertTrue(validator.isValidDate("11063326641"));
         assertTrue(validator.isValidDate("28023326641"));
         // date > 31
         assertFalse(validator.isValidDate("32099526641"));
-        // date not a valid one
+        // date < 1
+        assertFalse(validator.isValidDate("00099526641"));
+        // date not valid for month
         assertFalse(validator.isValidDate("30029526641"));
+        // month > 12
+        assertFalse(validator.isValidDate("01139526641"));
+        // month < 1
+        assertFalse(validator.isValidDate("01009526641"));
     }
 
     @Test
@@ -102,9 +108,25 @@ class NationalIDValidatorTest {
     void isCorrectChecksum() {
         // correct
         assertTrue(validator.isValidChecksum("11063326641"));
-        // false
+        // shift 1st control digit
+        assertFalse(validator.isValidChecksum("11063326651"));
+        assertFalse(validator.isValidChecksum("11063326661"));
+        assertFalse(validator.isValidChecksum("11063326671"));
+        assertFalse(validator.isValidChecksum("11063326681"));
+        assertFalse(validator.isValidChecksum("11063326691"));
+        assertFalse(validator.isValidChecksum("11063326601"));
+        assertFalse(validator.isValidChecksum("11063326611"));
         assertFalse(validator.isValidChecksum("11063326621"));
+        assertFalse(validator.isValidChecksum("11063326631"));
+        // shift 2nd control digit
+        assertFalse(validator.isValidChecksum("11063326642"));
+        assertFalse(validator.isValidChecksum("11063326643"));
+        assertFalse(validator.isValidChecksum("11063326644"));
         assertFalse(validator.isValidChecksum("11063326645"));
-        assertFalse(validator.isValidChecksum("11063326629"));
+        assertFalse(validator.isValidChecksum("11063326646"));
+        assertFalse(validator.isValidChecksum("11063326647"));
+        assertFalse(validator.isValidChecksum("11063326648"));
+        assertFalse(validator.isValidChecksum("11063326649"));
+        assertFalse(validator.isValidChecksum("11063326640"));
     }
 }
