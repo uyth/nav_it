@@ -11,14 +11,14 @@ class NationalIDValidatorTest {
 
     @Test
     void validateNationalID() {
-        assertTrue(validator.validateNationalID("290995***REMOVED***"));
-        assertFalse(validator.validateNationalID("***REMOVED***"));
-        assertFalse(validator.validateNationalID("***REMOVED***"));
+        assertTrue(validator.validateNationalID("11063326641"));
+        assertFalse(validator.validateNationalID("11063326631"));
+        assertFalse(validator.validateNationalID("11063326642"));
         assertFalse(validator.validateNationalID("12345678910"));
         assertFalse(validator.validateNationalID("abcdefghij"));
-        assertFalse(validator.validateNationalID("***REMOVED***"));
-        assertFalse(validator.validateNationalID("290995***REMOVED***0"));
-        assertFalse(validator.validateNationalID("290995a0***REMOVED***"));
+        assertFalse(validator.validateNationalID("1106332664"));
+        assertFalse(validator.validateNationalID("110633266410"));
+        assertFalse(validator.validateNationalID("110633a26641"));
 
         // national numbers fetched from
         // http://www.fnrinfo.no/Verktoy/FinnLovlige_Tilfeldig.aspx
@@ -63,48 +63,48 @@ class NationalIDValidatorTest {
         assertFalse(validator.isValidCharacters("1234567890"));
         assertFalse(validator.isValidCharacters("1234567891012"));
         // letters in between
-        assertFalse(validator.isValidCharacters("290995a0***REMOVED***"));
+        assertFalse(validator.isValidCharacters("110633a26641"));
         // whitespace -> false
-        assertFalse(validator.isValidCharacters(" 290995***REMOVED***"));
+        assertFalse(validator.isValidCharacters(" 11063326641"));
     }
 
     @Test
     void isValidDate() {
         // valid
-        assertTrue(validator.isValidDate("290995***REMOVED***"));
-        assertTrue(validator.isValidDate("280295***REMOVED***"));
+        assertTrue(validator.isValidDate("11063326641"));
+        assertTrue(validator.isValidDate("28023326641"));
         // date > 31
-        assertFalse(validator.isValidDate("320995***REMOVED***"));
+        assertFalse(validator.isValidDate("32099526641"));
         // date not a valid one
-        assertFalse(validator.isValidDate("300295***REMOVED***"));
+        assertFalse(validator.isValidDate("30029526641"));
     }
 
     @Test
     void isValidIndividualNumber() {
         // year [xx00, xx39] -> [000, 999]
-        assertTrue(validator.isValidIndividualNumber("290900***REMOVED***"));
-        assertTrue(validator.isValidIndividualNumber("29091280***REMOVED***"));
-        assertTrue(validator.isValidIndividualNumber("320939***REMOVED***"));
+        assertTrue(validator.isValidIndividualNumber("11063326641"));
+        assertTrue(validator.isValidIndividualNumber("29091280389"));
+        assertTrue(validator.isValidIndividualNumber("32093940123"));
 
         // year [xx40, xx53] -> [000, 499]+[900, 999]
-        assertFalse(validator.isValidIndividualNumber("29094550***REMOVED***"));
-        assertTrue(validator.isValidIndividualNumber("290945***REMOVED***"));
-        assertTrue(validator.isValidIndividualNumber("29094590***REMOVED***"));
+        assertFalse(validator.isValidIndividualNumber("29094556641"));
+        assertTrue(validator.isValidIndividualNumber("29094546641"));
+        assertTrue(validator.isValidIndividualNumber("29094596641"));
 
         // year [xx54, xx99] -> [000, 749]+[900, 999]
-        assertTrue(validator.isValidIndividualNumber("290995***REMOVED***"));
-        assertTrue(validator.isValidIndividualNumber("300255***REMOVED***"));
-        assertFalse(validator.isValidIndividualNumber("300295***REMOVED***"));
-        assertFalse(validator.isValidIndividualNumber("29095480***REMOVED***"));
+        assertTrue(validator.isValidIndividualNumber("29099526641"));
+        assertTrue(validator.isValidIndividualNumber("30025526641"));
+        assertFalse(validator.isValidIndividualNumber("30029575049"));
+        assertFalse(validator.isValidIndividualNumber("29095480589"));
     }
 
     @Test
     void isCorrectChecksum() {
         // correct
-        assertTrue(validator.isValidChecksum("290995***REMOVED***"));
+        assertTrue(validator.isValidChecksum("11063326641"));
         // false
-        assertFalse(validator.isValidChecksum("290995***REMOVED***"));
-        assertFalse(validator.isValidChecksum("290995***REMOVED***"));
-        assertFalse(validator.isValidChecksum("290995***REMOVED***"));
+        assertFalse(validator.isValidChecksum("11063326621"));
+        assertFalse(validator.isValidChecksum("11063326645"));
+        assertFalse(validator.isValidChecksum("11063326629"));
     }
 }
