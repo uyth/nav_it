@@ -3,5 +3,5 @@ public interface INationalIDValidator {
     boolean isValidCharacters(String nationalID);
     boolean isValidDate(String nationalID);
     boolean isValidIndividualNumber(String nationalID);
-    boolean isCorrectChecksum(String nationalID);
+    boolean isValidChecksum(String nationalID);
 }

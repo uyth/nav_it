@@ -17,19 +17,17 @@ public class NationalIDValidator implements INationalIDValidator {
     }
 
     @Override
+    // check if all constraints are ok
     public boolean validateNationalID(String nationalID) {
-        nationalID = nationalID.trim();
-        if (isValidCharacters(nationalID)
+        return isValidCharacters(nationalID)
                 && isValidDate(nationalID)
                 && isValidIndividualNumber(nationalID)
-                && isCorrectChecksum(nationalID)) {
-            return false;
-        }
-        return true;
+                && isValidChecksum(nationalID);
     }
 
     @Override
     public boolean isValidCharacters(String nationalID) {
+        // only allow strings that are numbers and 11 characters long
         return nationalID.matches("^[0-9]{11}");
     }
 
@@ -40,7 +38,6 @@ public class NationalIDValidator implements INationalIDValidator {
         try {
             dateFormat.parse(data);
         } catch (ParseException e) {
-            e.printStackTrace();
             return false;
         }
         return true;
@@ -52,33 +49,27 @@ public class NationalIDValidator implements INationalIDValidator {
         int individualNumber = Integer.valueOf(nationalID.substring(6, 9));
         int year = Integer.valueOf(nationalID.substring(4, 6));
         if (year < 40) {
-            // nothing
+            return true;
         } else if (year < 54) {
-            if ((individualNumber > 499) && (individualNumber < 900)) {
-                return false;
-            }
+            return individualNumber <= 499 || individualNumber >= 900;
         } else {
-            if (individualNumber > 749 && individualNumber < 900) {
-                return false;
-            }
+            return individualNumber <= 749 || individualNumber >= 900;
         }
-        return true;
     }
 
     @Override
-    public boolean isCorrectChecksum(String nationalID) {
-        // check control digit 1
-        if(!isValidChecksum(nationalID,
+    public boolean isValidChecksum(String nationalID) {
+        boolean c1, c2;
+        c1 = checkControlDigit(nationalID,
                 new int[]{3, 7, 6, 1, 8, 9, 4, 5, 2},
-                nationalID.charAt(9))) return false;
-        // check control digit 2
-        if(!isValidChecksum(nationalID,
+                Character.getNumericValue(nationalID.charAt(9)));
+        c2 = checkControlDigit(nationalID,
                 new int[]{5, 4, 3, 2, 7, 6, 5, 4, 3, 2},
-                nationalID.charAt(10))) return false;
-        return true;
+                Character.getNumericValue(nationalID.charAt(10)));
+        return c1 && c2;
     }
 
-    private boolean isValidChecksum(String nationalID, int[] toMultiPly, char checkSum) {
+    private boolean checkControlDigit(String nationalID, int[] toMultiPly, int checkSum) {
         // check checksum
         int sum = 0;
         for (int i = 0; i < toMultiPly.length; i++) {
@@ -86,6 +77,6 @@ public class NationalIDValidator implements INationalIDValidator {
         }
         // only valid if computed number equals checksum digit
         // or if computed number is 11 -> checksum digit == 0
-        return (11 - (sum % 11)) % 11 == Character.getNumericValue(checkSum);
+        return (11 - (sum % 11)) % 11 == checkSum;
     }
 }

@@ -99,10 +99,10 @@ class NationalIDValidatorTest {
     @Test
     void isCorrectChecksum() {
         // correct
-        assertTrue(validator.isCorrectChecksum("290995***REMOVED***"));
+        assertTrue(validator.isValidChecksum("290995***REMOVED***"));
         // false
-        assertFalse(validator.isCorrectChecksum("290995***REMOVED***"));
-        assertFalse(validator.isCorrectChecksum("290995***REMOVED***"));
-        assertFalse(validator.isCorrectChecksum("290995***REMOVED***"));
+        assertFalse(validator.isValidChecksum("290995***REMOVED***"));
+        assertFalse(validator.isValidChecksum("290995***REMOVED***"));
+        assertFalse(validator.isValidChecksum("290995***REMOVED***"));
     }
 }
